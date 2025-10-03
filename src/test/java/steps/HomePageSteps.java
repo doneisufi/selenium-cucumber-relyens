@@ -23,11 +23,12 @@ public class HomePageSteps {
         homePageAssertions = new HomePageAssertions(homePage);
 
         homePage.open();
+        homePage.acceptCookiesIfPresent(); // ✅ Handle cookies popup
     }
 
     @Then("I should see the Relyens logo")
     public void i_should_see_the_relyens_logo() {
         homePageAssertions.assertLogoIsDisplayed();
-        driver.quit();
+        //driver.quit();
     }
 }
