@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import hooks.Hooks;
 import pages.HomePage;
 import assertions.HomePageAssertions;
+import pages.RelyensPage;
 
 public class HomePageSteps {
 
@@ -51,7 +52,14 @@ public class HomePageSteps {
         // Click fifth nav link
         homePage.clickAndVerifyNavLink("Relyens", "relyens", "Entreprise responsable");
         homePage.clickPageButton("relyens","Le Groupe");
+    }
 
+    @And("I click a button in Relyens page then verify it's title")
+    public void i_should_see_relation_clients_title() {
+        RelyensPage relyensPage = new RelyensPage(driver);
+
+        homePage.clickPageButton("relyens","La relation clients");
+        relyensPage.isRelyensPageDisplayed();
     }
 
 }

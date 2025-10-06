@@ -1,10 +1,6 @@
 package pages;
 
-import java.io.File;
 import java.time.Duration;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import utils.ElementHighlighter;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -64,7 +60,6 @@ public class HomePage {
         WebElement el = wait.until(ExpectedConditions.elementToBeClickable(navLink));
         utils.ElementHighlighter.highlight(driver, el);
         el.click();
-        System.out.println("Clicked navigation link: " + linkText);
     }
 
     // Simple method to click the page button with highlight (based on data-name and text content)
@@ -81,7 +76,6 @@ public class HomePage {
         WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
         utils.ElementHighlighter.highlight(driver, button); // Highlight the button
         button.click();
-        System.out.println("Clicked page button with data-name='" + pageName + "' and text containing '" + pageIdentifier + "'.");
     }
 
     // Click nav link and then click the button
