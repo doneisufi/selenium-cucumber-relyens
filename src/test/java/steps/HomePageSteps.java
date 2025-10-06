@@ -38,12 +38,11 @@ public class HomePageSteps {
         homePageAssertions.assertAssuranceTextIsDisplayed();
     }
 
-    @And("I click on the {string} navigation link")
-    public void i_click_navigation_link(String linkText) {
-        homePage.clickNavigationLink("Vous êtes");
-        homePage.clickNavigationLink("Vos besoins");
-        homePage.clickNavigationLink("Relyens");
+    @And("I click on the {string} navigation link and verify {string} page opens")
+    public void i_click_link_and_verify_page(String linkText, String pageIdentifier) {
+        homePage.clickAndVerifyNavLink("Vous êtes", "acteurs-du-soin");
+        homePage.clickAndVerifyNavLink("Vos besoins", "acteurs-des-territoires");
+        homePage.clickAndVerifyNavLink("Relyens", "le groupe");
     }
-
 
 }
