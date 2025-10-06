@@ -28,6 +28,7 @@ public class HomePageSteps {
 
         homePage.open();
         homePage.acceptCookiesIfPresent();
+        homePage.dismissWelcomeMessage();
     }
 
     @Then("I should see the Relyens logo")

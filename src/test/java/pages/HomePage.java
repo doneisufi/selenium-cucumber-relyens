@@ -21,12 +21,12 @@ public class HomePage {
         this.driver = driver;
     }
 
-    // Actions
+    // Open homepage
     public void open() {
         driver.get("https://www.relyens.eu/fr/");
     }
 
-    // Accept cookies
+    // Accept cookies if present
     public void acceptCookiesIfPresent() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         try {
@@ -37,6 +37,36 @@ public class HomePage {
             System.out.println("Cookies popup accepted.");
         } catch (Exception e) {
             System.out.println("No cookies popup found.");
+        }
+    }
+
+    // Dismiss welcome message popup if it appears
+    public void dismissWelcomeMessage() {
+        try {
+            // Wait briefly to allow iframe to load
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+            // Switch to the iframe by ID
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("widget-Botsonic"));
+
+            // Locate the close button inside the iframe
+            By welcomeBtn = By.xpath("//div[@class='welcome-message cursor-pointer']/div/button");
+            WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(welcomeBtn));
+
+            // Highlight and click
+            ElementHighlighter.highlightClick(driver, btn);
+            btn.click();
+
+            System.out.println("Welcome message dismissed inside iframe.");
+
+            // Short pause to ensure action is processed
+            Thread.sleep(300);
+
+        } catch (Exception e) {
+            System.out.println("No welcome message iframe found or already dismissed: " + e.getMessage());
+        } finally {
+            // Switch back to main content
+            driver.switchTo().defaultContent();
         }
     }
 
