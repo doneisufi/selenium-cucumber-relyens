@@ -1,35 +1,31 @@
 package steps;
 
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
+import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import hooks.Hooks;
 import pages.HomePage;
 import assertions.HomePageAssertions;
 
 public class HomePageSteps {
 
-    private static WebDriver driver;
-    private static HomePage homePage;
-    private static HomePageAssertions homePageAssertions;
+    private WebDriver driver;
+    private HomePage homePage;
+    private HomePageAssertions homePageAssertions;
 
     @Given("I open the Relyens homepage")
     public void i_open_the_relyens_homepage() {
+        // Fetch driver only when step runs (after @Before hook)
+        driver = Hooks.driver;
+
         if (driver == null) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
+            throw new IllegalStateException("WebDriver was not initialized. Check Hooks.java @Before method.");
         }
 
-        if (homePage == null) {
-            homePage = new HomePage(driver);
-            homePageAssertions = new HomePageAssertions(homePage);
-        }
+        homePage = new HomePage(driver);
+        homePageAssertions = new HomePageAssertions(homePage);
 
         homePage.open();
-        homePage.acceptCookiesIfPresent(); // Handle cookies popup
+        homePage.acceptCookiesIfPresent();
     }
 
     @Then("I should see the Relyens logo")
@@ -45,16 +41,5 @@ public class HomePageSteps {
     @And("I click on the {string} navigation link")
     public void i_click_navigation_link(String linkText) {
         homePage.clickFirstNavLink();
-    }
-
-    // Tear down after all steps
-    @And("I close the browser")
-    public void i_close_the_browser() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-            homePage = null;
-            homePageAssertions = null;
-        }
     }
 }
