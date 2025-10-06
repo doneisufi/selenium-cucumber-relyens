@@ -7,4 +7,4 @@ Feature: Relyens homepage navigation
     Given I open the Relyens homepage
     Then I should see the Relyens logo
     And I should see the Assurance and Risk Management text
-    And I click on the "Some Link Text" navigation link
+    And I click on the "Link Text" navigation link

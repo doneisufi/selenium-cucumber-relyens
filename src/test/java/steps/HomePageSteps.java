@@ -40,6 +40,10 @@ public class HomePageSteps {
 
     @And("I click on the {string} navigation link")
     public void i_click_navigation_link(String linkText) {
-        homePage.clickFirstNavLink();
+        homePage.clickNavigationLink("Vous êtes");
+        homePage.clickNavigationLink("Vos besoins");
+        homePage.clickNavigationLink("Relyens");
     }
+
+
 }

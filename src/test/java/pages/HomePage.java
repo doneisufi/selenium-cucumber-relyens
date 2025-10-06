@@ -56,11 +56,15 @@ public class HomePage {
         return el.isDisplayed();
     }
 
-    // Click navigation link "Vous êtes"
-    public void clickFirstNavLink() {
-        WebElement el = driver.findElement(firstNavLink);
+    // Click navigation link by visible text
+    public void clickNavigationLink(String linkText) {
+        By navLink = By.xpath("//a[contains(text(), '" + linkText + "')]");
+
+        WebElement el = driver.findElement(navLink);
         utils.ElementHighlighter.highlight(driver, el); // highlight before click
         el.click();
+
+        System.out.println("Clicked navigation link: " + linkText);
     }
 
 }
