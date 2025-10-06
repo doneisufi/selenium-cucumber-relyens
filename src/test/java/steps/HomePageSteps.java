@@ -1,11 +1,13 @@
 package steps;
 
-import io.cucumber.java.en.*;
-import org.openqa.selenium.WebDriver;
 import hooks.Hooks;
 import pages.HomePage;
-import assertions.HomePageAssertions;
 import pages.RelyensPage;
+import io.cucumber.java.en.*;
+import assertions.HomePageAssertions;
+import org.openqa.selenium.WebDriver;
+import assertions.RelyensPageAssertions;
+
 
 public class HomePageSteps {
 
@@ -57,9 +59,10 @@ public class HomePageSteps {
     @And("I click a button in Relyens page then verify it's title")
     public void i_should_see_relation_clients_title() {
         RelyensPage relyensPage = new RelyensPage(driver);
+        RelyensPageAssertions relyensPageAssertions = new RelyensPageAssertions(relyensPage);
 
         homePage.clickPageButton("relyens","La relation clients");
-        relyensPage.isRelyensPageDisplayed();
+        relyensPageAssertions.assertTitleIsDisplayed();
     }
 
 }
