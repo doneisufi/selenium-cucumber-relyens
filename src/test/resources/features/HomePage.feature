@@ -7,4 +7,4 @@ Feature: Relyens homepage navigation
     Given I open the Relyens homepage
     Then I should see the Relyens logo
     And I should see the Assurance and Risk Management text
-    And I click on the "nav link text" navigation link and verify "page identifier" page opens
+    And I click on the "nav link text" navigation link and verify "pageIdentifier" visibility then click "button or link" present

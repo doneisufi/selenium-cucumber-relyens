@@ -38,11 +38,20 @@ public class HomePageSteps {
         homePageAssertions.assertAssuranceTextIsDisplayed();
     }
 
-    @And("I click on the {string} navigation link and verify {string} page opens")
-    public void i_click_link_and_verify_page(String linkText, String pageIdentifier) {
-        homePage.clickAndVerifyNavLink("Vous êtes", "acteurs-du-soin");
-        homePage.clickAndVerifyNavLink("Vos besoins", "acteurs-des-territoires");
-        homePage.clickAndVerifyNavLink("Relyens", "le groupe");
+    @And("I click on the {string} navigation link and verify {string} visibility then click {string} present")
+    public void i_click_link_and_verify_page(String linkText, String pageName, String pageIdentifier) {
+        // Click first nav link
+        homePage.clickAndVerifyNavLink("Vous êtes", "vous-etes","Acteurs des territoires");
+        homePage.clickPageButton("vous-etes", "Acteurs du soin");
+
+        // Click second nav link
+        homePage.clickAndVerifyNavLink("Vos besoins", "vos-besoins", "Acteurs du soin");
+        homePage.clickPageButton("vos-besoins", "Acteurs des territoires");
+
+        // Click fifth nav link
+        homePage.clickAndVerifyNavLink("Relyens", "relyens", "Entreprise responsable");
+        homePage.clickPageButton("relyens","Le Groupe");
+
     }
 
 }
