@@ -1,11 +1,8 @@
 package pages;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.function.Function;
-
+import java.time.Duration;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.FluentWait;
 import utils.ElementHighlighter;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,7 +31,8 @@ public class HomePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         try {
             WebElement button = wait.until(ExpectedConditions.elementToBeClickable(acceptCookiesBtn));
-            ElementHighlighter.highlight(driver, button);
+            ElementHighlighter.highlightClick(driver, button);
+            ElementHighlighter.highlightClick(driver, button);
             button.click();
             System.out.println("Cookies popup accepted.");
         } catch (Exception e) {
@@ -45,14 +43,14 @@ public class HomePage {
     // Get validations
     public boolean logoIsDisplayed() {
         WebElement el = driver.findElement(logo);
-        ElementHighlighter.highlight(driver, el); // highlight before verifying
+        ElementHighlighter.highlightVerify(driver, el); // highlight before verifying
         return el.isDisplayed();
     }
 
     // Check if the text is displayed
     public boolean isAssuranceTextDisplayed() {
         WebElement el = driver.findElement(assuranceText);
-        utils.ElementHighlighter.highlight(driver, el);
+        ElementHighlighter.highlightVerify(driver, el);
         return el.isDisplayed();
     }
 
@@ -62,7 +60,7 @@ public class HomePage {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement el = wait.until(ExpectedConditions.elementToBeClickable(navLink));
-        utils.ElementHighlighter.highlight(driver, el);
+        ElementHighlighter.highlightClick(driver, el);
         el.click();
     }
 
@@ -78,7 +76,7 @@ public class HomePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.presenceOfElementLocated(submenuContainer));
         WebElement button = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
-        utils.ElementHighlighter.highlight(driver, button); // Highlight the button
+        ElementHighlighter.highlightClick(driver, button); // Highlight the button
         button.click();
     }
 
@@ -99,7 +97,7 @@ public class HomePage {
                 List<WebElement> cards = driver.findElements(By.xpath(xpath));
                 for (WebElement card : cards) {
                     if (card.isDisplayed()) {
-                        utils.ElementHighlighter.highlight(driver, card);
+                        ElementHighlighter.highlightVerify(driver, card);
                         return true; // found visible card
                     }
                 }

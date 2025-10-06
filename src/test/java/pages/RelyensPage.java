@@ -22,7 +22,7 @@ public class RelyensPage {
     // Actions
     public boolean isRelyensPageDisplayed() {
         WebElement el = driver.findElement(relationClientTitle);
-        ElementHighlighter.highlight(driver, el);
+        ElementHighlighter.highlightVerify(driver, el);
         return el.isDisplayed();
     }
 

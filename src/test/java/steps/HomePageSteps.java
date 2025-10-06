@@ -40,25 +40,32 @@ public class HomePageSteps {
         homePageAssertions.assertAssuranceTextIsDisplayed();
     }
 
-    @And("I click on different navigation links and verify it's first content")
-    public void i_click_link_and_verify_page() {
-        // Click first nav link
-        homePage.clickAndVerifyNavLink("Vous êtes", "vous-etes","Acteurs des territoires");
-        homePageAssertions.assertFirstCardIsDisplayed("vous-etes");
-        homePage.clickPageButton("vous-etes", "Acteurs du soin");
-        homePageAssertions.assertFirstCardIsDisplayed("vous-etes");
+    @And("I click on different navigation links and verify their first content")
+    public void i_click_link_and_verify_page() throws InterruptedException {
 
-        // Click second nav link
-        homePage.clickAndVerifyNavLink("Vos besoins", "vos-besoins", "Acteurs du soin");
-        homePageAssertions.assertFirstCardIsDisplayed("vos-besoins");
-        homePage.clickPageButton("vos-besoins", "Acteurs des territoires");
-        homePageAssertions.assertFirstCardIsDisplayed("vos-besoins");
+        // Define each nav link with parameters in a simple array
+        String[][] navLinks = {
+                {"Vous êtes", "vous-etes", "Acteurs des territoires", "Acteurs du soin"},
+                {"Vos besoins", "vos-besoins", "Acteurs du soin", "Acteurs des territoires"},
+                {"Relyens", "relyens", "Entreprise responsable", "Le Groupe"}
+        };
 
-        // Click fifth nav link
-        homePage.clickAndVerifyNavLink("Relyens", "relyens", "Entreprise responsable");
-        homePageAssertions.assertFirstCardIsDisplayed("relyens");
-        homePage.clickPageButton("relyens","Le Groupe");
-        homePageAssertions.assertFirstCardIsDisplayed("relyens");
+        for (String[] nav : navLinks) {
+            String linkText = nav[0];
+            String pageName = nav[1];
+            String pageIdentifier = nav[2];
+            String buttonToClick = nav[3];
+
+            // Click navigation link and verify page content
+            homePage.clickAndVerifyNavLink(linkText, pageName, pageIdentifier);
+            Thread.sleep(500); // 0.5 seconds delay
+            homePageAssertions.assertFirstCardIsDisplayed(pageName);
+
+            // Click button and re-verify first card
+            homePage.clickPageButton(pageName, buttonToClick);
+            Thread.sleep(500); // 0.5 seconds delay
+            homePageAssertions.assertFirstCardIsDisplayed(pageName);
+        }
     }
 
     @And("I click a button in Relyens page then verify it's title")
