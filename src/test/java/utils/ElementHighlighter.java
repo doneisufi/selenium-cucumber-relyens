@@ -11,9 +11,9 @@ public class ElementHighlighter {
         String originalStyle = element.getAttribute("style");
         // Add highlight
         js.executeScript("arguments[0].setAttribute('style', arguments[1]);",
-                element, "border: 2px solid red; background: yellow;");
+                element, "border: 2px solid blue; background: yellow;");
         try {
-            Thread.sleep(300); // highlight visible for 300ms
+            Thread.sleep(500); // highlight visible for 500ms
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

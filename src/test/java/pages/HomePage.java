@@ -1,13 +1,12 @@
 package pages;
 
+import java.time.Duration;
 import org.openqa.selenium.By;
 import utils.ElementHighlighter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HomePage {
 
@@ -16,6 +15,9 @@ public class HomePage {
     // Locators
     private final By logo = By.xpath("//h1/a[@aria-label='Relyens']");
     private final By acceptCookiesBtn = By.id("tarteaucitronPersonalize2");
+    private final By assuranceText = By.xpath("//div[contains(text(), 'ASSURANCE ET MANAGEMENT DES RISQUES')]");
+    private final By firstNavLink = By.xpath("//a[contains(text(), 'Vous êtes')]");
+
 
     // Constructor
     public HomePage(WebDriver driver) {
@@ -27,15 +29,16 @@ public class HomePage {
         driver.get("https://www.relyens.eu/fr/");
     }
 
+    // Accept cookies
     public void acceptCookiesIfPresent() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         try {
             WebElement button = wait.until(ExpectedConditions.elementToBeClickable(acceptCookiesBtn));
             ElementHighlighter.highlight(driver, button);
             button.click();
-            System.out.println("✅ Cookies popup accepted.");
+            System.out.println("Cookies popup accepted.");
         } catch (Exception e) {
-            System.out.println("ℹ️ No cookies popup found.");
+            System.out.println("No cookies popup found.");
         }
     }
 
@@ -44,6 +47,20 @@ public class HomePage {
         WebElement el = driver.findElement(logo);
         ElementHighlighter.highlight(driver, el); // highlight before verifying
         return el.isDisplayed();
+    }
+
+    // Check if the text is displayed
+    public boolean isAssuranceTextDisplayed() {
+        WebElement el = driver.findElement(assuranceText);
+        utils.ElementHighlighter.highlight(driver, el);
+        return el.isDisplayed();
+    }
+
+    // Click navigation link "Vous êtes"
+    public void clickFirstNavLink() {
+        WebElement el = driver.findElement(firstNavLink);
+        utils.ElementHighlighter.highlight(driver, el); // highlight before click
+        el.click();
     }
 
 }

@@ -3,15 +3,15 @@ package assertions;
 import pages.HomePage;
 import static org.junit.Assert.assertTrue;
 
-public class HomePageAssertions {
+public record HomePageAssertions(HomePage homePage) {
 
-    private HomePage homePage;
-
-    public HomePageAssertions(HomePage homePage) {
-        this.homePage = homePage;
-    }
-
-    public void  assertLogoIsDisplayed() {
+    public void assertLogoIsDisplayed() {
         assertTrue("The Relyens logo should be visible", homePage.logoIsDisplayed());
     }
+
+    public void assertAssuranceTextIsDisplayed() {
+        assertTrue("The assurance text should be visible on the homepage",
+                homePage.isAssuranceTextDisplayed());
+    }
+
 }
