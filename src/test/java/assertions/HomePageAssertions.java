@@ -14,4 +14,9 @@ public record HomePageAssertions(HomePage homePage) {
                 homePage.isAssuranceTextDisplayed());
     }
 
+    public void assertFirstCardIsDisplayed(String pageName) {
+        assertTrue("The first card should be visible on the homepage for page: " + pageName,
+                homePage.isFirstCardDisplayed(pageName));
+    }
+
 }

@@ -1,7 +1,11 @@
 package pages;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.function.Function;
+
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.FluentWait;
 import utils.ElementHighlighter;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -82,6 +86,34 @@ public class HomePage {
     public void clickAndVerifyNavLink(String linkText, String pageName, String pageIdentifier) {
         clickNavigationLink(linkText);
         clickPageButton(pageName, pageIdentifier);
+    }
+
+    // Check presence of the first card with explicit wait
+    public boolean isFirstCardDisplayed(String pageName) {
+        try {
+            // Retry loop to handle async rendering
+            for (int i = 0; i < 20; i++) { // up to 10 seconds total
+                // Build XPath dynamically with pageName
+                String xpath = "(//div[@data-name='" + pageName + "']/div/div[contains(@class, 'header_submenu__depth2_wrapper')]/div/a)";
+
+                List<WebElement> cards = driver.findElements(By.xpath(xpath));
+                for (WebElement card : cards) {
+                    if (card.isDisplayed()) {
+                        utils.ElementHighlighter.highlight(driver, card);
+                        return true; // found visible card
+                    }
+                }
+
+                Thread.sleep(500); // wait before retrying
+            }
+
+            System.out.println("No visible first card found for page '" + pageName + "' after retries.");
+            return false;
+
+        } catch (Exception e) {
+            System.out.println("First card not visible after wait: " + e.getMessage());
+            return false;
+        }
     }
 
 }

@@ -7,5 +7,5 @@ Feature: Relyens Homepage Navigation
     Given I open the Relyens homepage
     Then I should see the Relyens logo
     And I should see the Assurance and Risk Management text
-    And I click on the "nav link text" navigation link and verify "page identifier" visibility then click "button or link" present
+    And I click on different navigation links and verify it's first content
     And I click a button in Relyens page then verify it's title

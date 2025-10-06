@@ -8,7 +8,6 @@ import assertions.HomePageAssertions;
 import org.openqa.selenium.WebDriver;
 import assertions.RelyensPageAssertions;
 
-
 public class HomePageSteps {
 
     private WebDriver driver;
@@ -41,19 +40,25 @@ public class HomePageSteps {
         homePageAssertions.assertAssuranceTextIsDisplayed();
     }
 
-    @And("I click on the {string} navigation link and verify {string} visibility then click {string} present")
-    public void i_click_link_and_verify_page(String linkText, String pageName, String pageIdentifier) {
+    @And("I click on different navigation links and verify it's first content")
+    public void i_click_link_and_verify_page() {
         // Click first nav link
         homePage.clickAndVerifyNavLink("Vous êtes", "vous-etes","Acteurs des territoires");
+        homePageAssertions.assertFirstCardIsDisplayed("vous-etes");
         homePage.clickPageButton("vous-etes", "Acteurs du soin");
+        homePageAssertions.assertFirstCardIsDisplayed("vous-etes");
 
         // Click second nav link
         homePage.clickAndVerifyNavLink("Vos besoins", "vos-besoins", "Acteurs du soin");
+        homePageAssertions.assertFirstCardIsDisplayed("vos-besoins");
         homePage.clickPageButton("vos-besoins", "Acteurs des territoires");
+        homePageAssertions.assertFirstCardIsDisplayed("vos-besoins");
 
         // Click fifth nav link
         homePage.clickAndVerifyNavLink("Relyens", "relyens", "Entreprise responsable");
+        homePageAssertions.assertFirstCardIsDisplayed("relyens");
         homePage.clickPageButton("relyens","Le Groupe");
+        homePageAssertions.assertFirstCardIsDisplayed("relyens");
     }
 
     @And("I click a button in Relyens page then verify it's title")
