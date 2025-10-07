@@ -9,3 +9,4 @@ Feature: Relyens Homepage Navigation
     And I should see the Assurance and Risk Management text
     And I click on different navigation links and verify their first content
     And I click a button in Relyens page then verify it's title
+    And I click Espace client button

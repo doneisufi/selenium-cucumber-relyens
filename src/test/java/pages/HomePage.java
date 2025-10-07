@@ -15,6 +15,7 @@ public class HomePage {
     private final By logo = By.xpath("//h1/a[@aria-label='Relyens']");
     private final By acceptCookiesBtn = By.id("tarteaucitronPersonalize2");
     private final By assuranceText = By.xpath("//div[contains(text(), 'ASSURANCE ET MANAGEMENT DES RISQUES')]");
+    private final By espaceClientButton = By.xpath("//button[contains(@class, 'customer') and contains(@class, 'secondary')]");
 
     // Constructor
     public HomePage(WebDriver driver) {
@@ -44,7 +45,7 @@ public class HomePage {
     public void dismissWelcomeMessage() {
         try {
             // Wait briefly to allow iframe to load
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
 
             // Switch to the iframe by ID
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("widget-Botsonic"));
@@ -142,6 +143,14 @@ public class HomePage {
             System.out.println("First card not visible after wait: " + e.getMessage());
             return false;
         }
+    }
+
+    // Click ESPACE CLIENT button
+    public void clickEspaceClientButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement el = wait.until(ExpectedConditions.elementToBeClickable(espaceClientButton));
+        ElementHighlighter.highlightClick(driver, el);
+        el.click();
     }
 
 }

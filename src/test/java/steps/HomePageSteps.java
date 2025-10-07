@@ -4,9 +4,11 @@ import hooks.Hooks;
 import pages.HomePage;
 import pages.RelyensPage;
 import io.cucumber.java.en.*;
+import pages.EspaceClientPage;
 import assertions.HomePageAssertions;
 import org.openqa.selenium.WebDriver;
 import assertions.RelyensPageAssertions;
+import assertions.EspaceClientPageAssertions;
 
 public class HomePageSteps {
 
@@ -76,6 +78,15 @@ public class HomePageSteps {
 
         homePage.clickPageButton("relyens","La relation clients");
         relyensPageAssertions.assertTitleIsDisplayed();
+    }
+
+    @And("I click Espace client button")
+    public void i_should_see_espace_client_sidepage() {
+        EspaceClientPage  eSpaceClientPage = new EspaceClientPage(driver);
+        EspaceClientPageAssertions espaceClientPageAssertions = new EspaceClientPageAssertions(eSpaceClientPage);
+
+        homePage.clickEspaceClientButton();
+        espaceClientPageAssertions.assertTitleIsDisplayed();
     }
 
 }
