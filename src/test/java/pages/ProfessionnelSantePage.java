@@ -39,10 +39,14 @@ public class ProfessionnelSantePage {
         WebElement passwordField = ElementWaiter.visible(driver, passwordInput);
         WebElement loginBtn = ElementWaiter.clickable(driver, loginButton);
 
+        ElementHighlighter.highlightClick(driver, loginBtn);
+
         usernameField.clear();
         passwordField.clear();
+
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
+
         loginBtn.click();
     }
 

@@ -41,4 +41,11 @@ public class ElementHighlighter {
         highlight(driver, element, "green", "lightgreen", 800);
     }
 
+    /**
+     * Shortcut for input actions (blue border, lightgreen background)
+     */
+    public static void highlightInput(WebDriver driver, WebElement element) {
+        highlight(driver, element, "blue", "lightblue", 500);
+    }
+
 }
