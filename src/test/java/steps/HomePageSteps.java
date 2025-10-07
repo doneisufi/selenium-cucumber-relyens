@@ -4,17 +4,17 @@ import hooks.Hooks;
 import pages.HomePage;
 import pages.RelyensPage;
 import io.cucumber.java.en.*;
-import pages.EspaceClientPage;
 import assertions.HomePageAssertions;
 import org.openqa.selenium.WebDriver;
 import assertions.RelyensPageAssertions;
-import assertions.EspaceClientPageAssertions;
 
 public class HomePageSteps {
 
     private WebDriver driver;
     private HomePage homePage;
+    private RelyensPage relyensPage;
     private HomePageAssertions homePageAssertions;
+    private RelyensPageAssertions relyensPageAssertions;
 
     @Given("I open the Relyens homepage")
     public void i_open_the_relyens_homepage() {
@@ -25,9 +25,15 @@ public class HomePageSteps {
             throw new IllegalStateException("WebDriver was not initialized. Check Hooks.java @Before method.");
         }
 
+        // Pages
         homePage = new HomePage(driver);
-        homePageAssertions = new HomePageAssertions(homePage);
+        relyensPage = new RelyensPage(driver);
 
+        // Assertions
+        homePageAssertions = new HomePageAssertions(homePage);
+        relyensPageAssertions = new RelyensPageAssertions(relyensPage);
+
+        // Steps
         homePage.open();
         homePage.acceptCookiesIfPresent();
         homePage.dismissWelcomeMessage();
@@ -61,32 +67,22 @@ public class HomePageSteps {
 
             // Click navigation link and verify page content
             homePage.clickAndVerifyNavLink(linkText, pageName, pageIdentifier);
-            Thread.sleep(500); // 0.5 seconds delay
+            // To be improved
+            Thread.sleep(500);
             homePageAssertions.assertFirstCardIsDisplayed(pageName);
 
             // Click button and re-verify first card
             homePage.clickPageButton(pageName, buttonToClick);
-            Thread.sleep(500); // 0.5 seconds delay
+            // To be improved
+            Thread.sleep(500);
             homePageAssertions.assertFirstCardIsDisplayed(pageName);
         }
     }
 
-    @And("I click a button in Relyens page then verify it's title")
+    @And("I click La relation clients button in Relyens page then verify it's title")
     public void i_should_see_relation_clients_title() {
-        RelyensPage relyensPage = new RelyensPage(driver);
-        RelyensPageAssertions relyensPageAssertions = new RelyensPageAssertions(relyensPage);
-
         homePage.clickPageButton("relyens","La relation clients");
         relyensPageAssertions.assertTitleIsDisplayed();
-    }
-
-    @And("I click Espace client button")
-    public void i_should_see_espace_client_sidepage() {
-        EspaceClientPage  eSpaceClientPage = new EspaceClientPage(driver);
-        EspaceClientPageAssertions espaceClientPageAssertions = new EspaceClientPageAssertions(eSpaceClientPage);
-
-        homePage.clickEspaceClientButton();
-        espaceClientPageAssertions.assertTitleIsDisplayed();
     }
 
 }
