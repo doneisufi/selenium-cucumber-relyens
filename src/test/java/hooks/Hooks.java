@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Hooks {
@@ -13,7 +14,18 @@ public class Hooks {
     @Before
     public void setUp() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+
+        ChromeOptions options = new ChromeOptions();
+
+        // Check if running in headless mode (e.g., in CI)
+        if ("true".equalsIgnoreCase(System.getenv("HEADLESS"))) {
+            options.addArguments("--headless=new"); // modern headless mode
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+            System.out.println("Running in headless mode.");
+        }
+
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         System.out.println("WebDriver initialized in @Before hook.");
     }
