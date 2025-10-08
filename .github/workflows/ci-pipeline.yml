@@ -1,0 +1,73 @@
+name: CI Pipeline for Selenium + Cucumber
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up Java 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # Cache Maven dependencies
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      # Install Google Chrome (for Selenium)
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+
+      # Install ChromeDriver (matching Chrome version)
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          wget -q --continue -P . "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROME_VERSION}/linux64/chromedriver-linux64.zip"
+          unzip chromedriver-linux64.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      # Run tests (Maven + Cucumber)
+      - name: Run Cucumber Tests
+        run: mvn clean test
+        env:
+          # For headless Selenium
+          HEADLESS: true
+          # Add any other env vars, e.g., for your test config
+
+      # Generate and publish Cucumber reports (if tests pass)
+      - name: Generate Cucumber Reports
+        if: success()
+        run: |
+          mvn cucumber:reporting  # Assumes Cucumber reporting plugin in pom.xml
+        # Or use a custom script if needed
+
+      # Upload reports as artifacts
+      - name: Upload Test Reports
+        if: always()  # Upload even if tests fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-reports
+          path: target/cucumber-reports/  # Adjust path to your reports dir

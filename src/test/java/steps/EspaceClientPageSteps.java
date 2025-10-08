@@ -5,7 +5,6 @@ import pages.HomePage;
 import io.cucumber.java.en.*;
 import pages.EspaceClientPage;
 import pages.ProfessionnelSantePage;
-import assertions.HomePageAssertions;
 import org.openqa.selenium.WebDriver;
 import assertions.EspaceClientPageAssertions;
 import assertions.ProfessionnelSantePageAssertions;
@@ -14,7 +13,6 @@ public class EspaceClientPageSteps {
 
     private HomePage homePage;
     private EspaceClientPage espaceClientPage;
-    private HomePageAssertions homePageAssertions;
     private ProfessionnelSantePage professionnelSantePage;
     private EspaceClientPageAssertions espaceClientPageAssertions;
     private ProfessionnelSantePageAssertions professionnelSantePageAssertions;
