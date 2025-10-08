@@ -48,13 +48,6 @@ jobs:
           HEADLESS: true
           # Add any other env vars, e.g., for your test config
 
-      # Generate and publish Cucumber reports (if tests pass)
-      - name: Generate Cucumber Reports
-        if: success()
-        run: |
-          mvn cucumber:reporting  # Assumes Cucumber reporting plugin in pom.xml
-        # Or use a custom script if needed
-
       # Upload reports as artifacts
       - name: Upload Test Reports
         if: always()  # Upload even if tests fail
