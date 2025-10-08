@@ -41,22 +41,20 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Install Google Chrome (for Selenium)
-      - name: Install Chrome
-        run: |
-          sudo apt-get update
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
+      # Set up Chrome and ChromeDriver (replacing custom install)
+      - name: Set up Chrome and ChromeDriver
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 'stable'
+          install-chromedriver: true
+          install-dependencies: true
 
       # Run tests (Maven + Cucumber)
       - name: Run Cucumber Tests
-        run: mvn clean test
+        run: mvn clean verify  # Use verify to include reporting
         env:
-          # For headless Selenium
           HEADLESS: true
-          # Add any other env vars, e.g., for your test config
+          ENVIRONMENT: ${{ github.event.inputs.environment || 'staging' }}
 
       # Upload reports as artifacts
       - name: Upload Test Reports
@@ -64,4 +62,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-reports
-          path: target/cucumber-reports/  # Adjust path to your reports dir
+          path: target/cucumber-reports/  # Ensure this matches your output
